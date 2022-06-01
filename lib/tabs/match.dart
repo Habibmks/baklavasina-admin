@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:baklavasina/pages/match.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/matchModel.dart';
 
@@ -47,9 +49,11 @@ class matchpage extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => matchPage(cities[index].id)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => matchPage(cities[index]),
+                      ),
+                    );
                   },
                 );
               },
@@ -92,6 +96,10 @@ Future<List<matchModel>> matchList() async {
     matchModel("213213", "123214213", false, "21321214", "1243241223"),
     matchModel("213213", "123214213", false, "21321214", "1243241223"),
   ];
+  final response =
+      await http.get(Uri.parse('http://localhost:3000/person/all'));
+  final body = jsonDecode(response.body);
+  print(body);
   await Future.delayed(const Duration(seconds: 1));
   return cities;
 }

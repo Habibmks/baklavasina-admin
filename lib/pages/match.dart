@@ -1,8 +1,9 @@
+import 'package:baklavasina/models/matchModel.dart';
 import 'package:flutter/material.dart';
 
 class matchPage extends StatelessWidget {
-  final matchId;
-  matchPage(this.matchId);
+  matchModel match;
+  matchPage(this.match);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -12,7 +13,7 @@ class matchPage extends StatelessWidget {
       ),
       body: Container(
         child: Center(
-          child: Text(matchId.toString()),
+          child: Text(match.home),
         ),
       ),
     );
