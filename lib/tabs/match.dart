@@ -90,11 +90,11 @@ class matchpage extends StatelessWidget {
 
 Future<List<matchModel>> matchList() async {
   final List<matchModel> cities = [
-    matchModel("213213", "123214213", false, "21321214", "1243241223"),
-    matchModel("213213", "123214213", false, "21321214", "1243241223"),
-    matchModel("213213", "123214213", false, "21321214", "1243241223"),
-    matchModel("213213", "12323", false, "1545436", "1243241223"),
-    matchModel("213213", "123214213", false, "21321214", "1243241223"),
+    matchModel("523", "345", false, "fd", "13213"),
+    matchModel("aca", "543", false, "abc", "2131"),
+    matchModel("asd", "234", false, "21321214", "123"),
+    matchModel("567", "12323", false, "34g", "434"),
+    matchModel("234", "524", false, "sgdfg", "4535"),
   ];
   final response =
       await http.get(Uri.parse('http://localhost:3000/person/all'));
