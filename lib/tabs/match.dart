@@ -28,20 +28,22 @@ class matchpage extends StatelessWidget {
           if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           } else {
-            List<matchModel> cities = snapshot.data;
+            List<matchModel> matches = snapshot.data;
             return ListView.builder(
-              itemCount: cities.length,
+              itemCount: matches.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   child: Card(
+                    color: matchCardColor(matches[index].type),
                     child: Column(
                       children: [
-                        Text(index.toString()),
+                        Text(
+                            matches[index].city + " - " + matches[index].state),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(cities[index].home),
-                            Text(cities[index].guest),
+                            Text(matches[index].homeName),
+                            Text(matches[index].guestName),
                           ],
                         )
                       ],
@@ -51,7 +53,7 @@ class matchpage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => matchPage(cities[index]),
+                        builder: (context) => matchPage(id: matches[index].id),
                       ),
                     );
                   },
@@ -86,20 +88,49 @@ class matchpage extends StatelessWidget {
       ),
     );
   }
+
+  static matchCardColor(String type) {
+    switch (type) {
+      case "easy":
+        return Color.fromARGB(255, 144, 233, 147);
+      case "prepare":
+        return Colors.blue;
+      case "league":
+        return Colors.red;
+      case "tournament":
+        return Colors.yellow;
+      default:
+        return Colors.white;
+    }
+  }
 }
 
 Future<List<matchModel>> matchList() async {
-  final List<matchModel> cities = [
-    matchModel("523", "345", false, "fd", "13213"),
-    matchModel("aca", "543", false, "abc", "2131"),
-    matchModel("asd", "234", false, "21321214", "123"),
-    matchModel("567", "12323", false, "34g", "434"),
-    matchModel("234", "524", false, "sgdfg", "4535"),
-  ];
   final response =
-      await http.get(Uri.parse('http://localhost:3000/person/all'));
-  final body = jsonDecode(response.body);
-  print(body);
-  await Future.delayed(const Duration(seconds: 1));
-  return cities;
+      await http.get(Uri.parse('http://localhost:3000/match/get/all'));
+  var jsonResponse = json.decode(response.body);
+  var matches = matchParser(jsonResponse);
+  return matches;
+}
+
+List<matchModel> matchParser(var jsonResponse) {
+  List<matchModel> matches = [];
+  try {
+    for (var json in jsonResponse) {
+      matchModel match = matchModel(
+        id: json["_id"].toString(),
+        type: json["type"].toString(),
+        field: json["field"].toString(),
+        played: json["played"],
+        city: json["city"].toString(),
+        state: json["state"].toString(),
+        homeName: json["homeName"],
+        guestName: json["guestName"],
+      );
+      matches.add(match);
+    }
+  } catch (error) {
+    print(error);
+  }
+  return matches;
 }
