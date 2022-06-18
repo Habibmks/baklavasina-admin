@@ -55,7 +55,7 @@ class matchPage extends StatelessWidget {
 
 Future<matchDetails> getmatch(String id) async {
   final response =
-      await http.get(Uri.parse('http://localhost:3000/match/get/' + id));
+      await http.get(Uri.parse('http://baklavasina:3000/match/get/' + id));
   var jsonResponse = json.decode(response.body);
   var match = matchParser(jsonResponse);
   return match;
