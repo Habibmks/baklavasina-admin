@@ -55,9 +55,29 @@ class matchPage extends StatelessWidget {
 
 Future<matchDetails> getmatch(String id) async {
   final response =
-      await http.get(Uri.parse('http://baklavasina:3000/match/get/' + id));
+      await http.get(Uri.parse('http://localhost:3000/match/get/' + id));
   var jsonResponse = json.decode(response.body);
   var match = matchParser(jsonResponse);
+  var mm = matchDetails(
+      id: "1234",
+      type: "easy",
+      field: "İZU",
+      played: true,
+      city: "İstanbul",
+      state: "Küçükçekmece",
+      homeName: "Takım 1",
+      guestName: "Takım 2",
+      cards: [],
+      homeId: "homeId",
+      guestId: "guestId",
+      homePlayers: [],
+      guestPlayers: [],
+      observer: "observer",
+      referee: "referee",
+      team1Goals: [],
+      team2Goals: [],
+      guest: "guest",
+      home: "home");
   return match;
 }
 

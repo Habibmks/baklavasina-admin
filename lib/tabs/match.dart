@@ -107,7 +107,7 @@ class matchpage extends StatelessWidget {
 
 Future<List<matchModel>> matchList() async {
   final response =
-      await http.get(Uri.parse('http://baklavasina:3000/match/get/all'));
+      await http.get(Uri.parse('http://localhost:3000/match/get/all'));
   var jsonResponse = json.decode(response.body);
   var matches = matchParser(jsonResponse);
   return matches;
